@@ -1,0 +1,64 @@
+
+USE `TechRepair` ;
+
+
+CREATE TABLE IF NOT EXISTS `TechRepair`.`Master` (
+  `IdMaster` INT NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(45) NULL,
+  `Surname` VARCHAR(45) NULL,
+  `Specialization` VARCHAR(45) NULL,
+  PRIMARY KEY (`IdMaster`));
+
+
+
+CREATE TABLE IF NOT EXISTS `TechRepair`.`Client` (
+  `IdClient` INT NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(45) NULL,
+  `Phone` VARCHAR(11) NULL,
+  PRIMARY KEY (`IdClient`))
+;
+
+
+CREATE TABLE IF NOT EXISTS `TechRepair`.`Tech` (
+  `idTech` INT NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(100) NULL,
+  `Model` VARCHAR(100) NULL,
+  PRIMARY KEY (`idTech`));
+
+
+CREATE TABLE IF NOT EXISTS `TechRepair`.`Request` (
+  `IdRequest` INT NOT NULL AUTO_INCREMENT,
+  `AddDate` DATE NULL,
+  `Comments` VARCHAR(200) NULL,
+  `Status` VARCHAR(45) NULL,
+  `IdTech` INT NOT NULL,
+  `IdClient` INT NOT NULL,
+  PRIMARY KEY (`IdRequest`),
+    FOREIGN KEY (`IdTech`)
+    REFERENCES `TechRepair`.`Tech` (`idTech`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    FOREIGN KEY (`IdClient`)
+    REFERENCES `TechRepair`.`Client` (`IdClient`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS `TechRepair`.`RequestMaster` (
+  `IdRequest` INT NOT NULL,
+  `IdMaster` INT NOT NULL,
+  PRIMARY KEY (`IdRequest`, `IdMaster`),
+    FOREIGN KEY (`IdRequest`)
+    REFERENCES `TechRepair`.`Request` (`IdRequest`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    FOREIGN KEY (`IdMaster`)
+    REFERENCES `TechRepair`.`Master` (`IdMaster`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS `TechRepair`.`User` (
+  `IdUser` INT NOT NULL AUTO_INCREMENT,
+  `Login` VARCHAR(45) NULL,
+  `Password` VARCHAR(45) NULL,
+  PRIMARY KEY (`IdUser`))
+;
